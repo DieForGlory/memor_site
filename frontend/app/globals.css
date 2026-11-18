@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Playfair Display Variable", "Playfair Display", Georgia, "Times New Roman", serif;
+
+  --color-brand: #f37f3b;
+  --color-brand-50: #fef4ec;
+  --color-brand-100: #fde3d0;
+  --color-brand-400: #f69a62;
+  --color-brand-600: #e0672a;
+  --color-brand-700: #bb5220;
+
+  --color-ink: #242424;
+  --color-ink-950: #141414;
+  --color-ink-900: #1b1b1b;
+  --color-ink-800: #2d2d2d;
+  --color-ink-700: #3a3a3a;
+  --color-ink-500: #6b6b6b;
+  --color-ink-400: #8f8f8f;
+  --color-ink-300: #b5b5b5;
+
+  --color-sand: #f4f2ef;
+  --color-sand-200: #e9e5df;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern", "liga";
+    /* У Playfair по умолчанию старостильные цифры («01» читается как «o1») — включаем выровненные */
+    font-variant-numeric: lining-nums proportional-nums;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  body {
+    @apply bg-white font-sans text-ink;
+  }
+  ::selection {
+    @apply bg-brand text-white;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8;
+}
+
+@utility eyebrow {
+  @apply text-[12px] font-bold uppercase tracking-[0.22em] text-brand-600;
+}
+
+/* Крупная антиква: заголовки страниц и первого экрана */
+
+@utility display-title {
+  @apply font-display text-[40px] leading-[1.04] font-medium tracking-[-0.015em] sm:text-[60px] lg:text-[76px];
+}
+
+@utility section-title {
+  @apply font-display text-[32px] leading-[1.08] font-medium tracking-[-0.01em] sm:text-[44px] lg:text-[56px];
+}
+
+/* Заголовок карточки — антиква поменьше */
+@utility card-title {
+  @apply font-display font-medium leading-[1.15] tracking-[-0.005em];
+}
+
+/* Большие цифры: годы, количество объектов, статистика */
+@utility stat-num {
+  @apply font-display font-medium leading-none tracking-[-0.02em] [font-variant-numeric:lining-nums_proportional-nums];
+}
+
+/* Акцентное слово в заголовке: курсив антиквы */
+@utility accent-em {
+  @apply font-display italic;
+  font-weight: inherit;
+}
+
+/* Вводный абзац */
+@utility lead-text {
+  @apply text-[17px] leading-[1.65] sm:text-[19px];
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[15px] font-semibold
+    transition-[background-color,color,border-color,transform] duration-200 ease-out-soft
+    active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60;
+}
+
+@utility btn-primary {
+  @apply btn bg-brand text-white hover:bg-brand-600;
+}
+
+@utility btn-ghost-light {
+  @apply btn border border-white/30 text-white hover:border-white hover:bg-white hover:text-ink;
+}
+
+@utility btn-ghost-dark {
+  @apply btn border border-ink/20 text-ink hover:border-ink hover:bg-ink hover:text-white;
+}
+
+@utility chip {
+  @apply inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors;
+}
+
+@utility field {
+  @apply w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-[15px] text-ink outline-none
+    transition-colors placeholder:text-ink-400 focus:border-brand;
+}
+
+@utility prose-site {
+  & p {
+    @apply mb-5 text-[17px] leading-[1.75] text-ink-700 last:mb-0;
+  }
+}
+
+/* Leaflet: фирменные метки и приглушённая подложка */
+.map-muted .leaflet-tile-pane {
+  filter: grayscale(1) contrast(0.92) brightness(1.04);
+}
+.map-dark .leaflet-tile-pane {
+  filter: grayscale(1) invert(1) contrast(0.85) brightness(0.9);
+}
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: #e9e7e3;
+}
+.map-dark.leaflet-container {
+  background: #1f1f1f;
+}
+.memor-pin {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-brand);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgb(243 127 59 / 0.25), 0 4px 10px rgb(0 0 0 / 0.35);
+  transition: transform 0.2s;
+}
+.memor-pin:hover,
+.memor-pin.is-active {
+  transform: scale(1.35);
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+}
+.leaflet-popup-content {
+  margin: 0;
+  width: 260px !important;
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.animate-hero-zoom {
+  animation: hero-zoom 7s var(--ease-out-soft) both;
+}
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.animate-progress {
+  animation: progress linear both;
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-zoom,
+  .animate-progress {
+    animation: none;
+  }
+}
